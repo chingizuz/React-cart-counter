@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart Counter</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+</head>
+
+<body class="bg-sky-100 min-h-screen flex items-center justify-center p-5">
+
+  <div class="w-full max-w-2xl bg-sky-50 border-8 border-sky-300 rounded-3xl p-10 shadow-xl">
+
+    <!-- Header -->
+    <div class="flex items-center justify-center gap-4 mb-8">
+
+      <i class="fa-solid fa-cart-shopping text-3xl text-gray-700"></i>
+
+      <span
+        id="cartCount"
+        class="bg-sky-500 text-white px-5 py-1 rounded-full text-3xl font-bold"
+      >
+        2
+      </span>
+
+      <h1 class="text-3xl font-semibold">
+        Items
+      </h1>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-center gap-4 mb-8">
+
+      <!-- Reset Counts -->
+      <button
+        id="resetBtn"
+        class="bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-xl transition"
+      >
+        <i class="fa-solid fa-rotate-left"></i>
+      </button>
+
+      <!-- Full Reset -->
+      <button
+        id="fullResetBtn"
+        class="bg-purple-500 hover:bg-purple-600 text-white px-5 py-3 rounded-xl transition"
+      >
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
+
+    </div>
+
+    <!-- Products -->
+    <div id="products" class="space-y-4">
+
+      <!-- Product -->
+      <div class="product flex items-center justify-center gap-3">
+
+        <div class="count bg-blue-500 text-white w-28 text-center py-2 rounded-lg text-3xl font-bold shadow">
+          3
+        </div>
+
+        <button class="plus bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+
+        <button class="minus bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-minus"></i>
+        </button>
+
+        <button class="delete bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
+      </div>
+
+      <!-- Product -->
+      <div class="product flex items-center justify-center gap-3">
+
+        <div class="count bg-blue-500 text-white w-28 text-center py-2 rounded-lg text-3xl font-bold shadow">
+          5
+        </div>
+
+        <button class="plus bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+
+        <button class="minus bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-minus"></i>
+        </button>
+
+        <button class="delete bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
+      </div>
+
+      <!-- Product -->
+      <div class="product flex items-center justify-center gap-3">
+
+        <div class="count bg-yellow-400 text-black w-28 text-center py-2 rounded-lg text-3xl font-bold shadow">
+          Zero
+        </div>
+
+        <button class="plus bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+
+        <button class="minus bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-minus"></i>
+        </button>
+
+        <button class="delete bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
+      </div>
+
+      <!-- Product -->
+      <div class="product flex items-center justify-center gap-3">
+
+        <div class="count bg-yellow-400 text-black w-28 text-center py-2 rounded-lg text-3xl font-bold shadow">
+          Zero
+        </div>
+
+        <button class="plus bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+
+        <button class="minus bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-circle-minus"></i>
+        </button>
+
+        <button class="delete bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const products = document.getElementById("products");
+    const cartCount = document.getElementById("cartCount");
+    const resetBtn = document.getElementById("resetBtn");
+    const fullResetBtn = document.getElementById("fullResetBtn");
+
+    // Initial products
+    const initialProducts = [3, 5, 0, 0];
+
+    // Update cart count
+    function updateCartCount() {
+
+      const counts = document.querySelectorAll(".count");
+
+      let active = 0;
+
+      counts.forEach(item => {
+
+        const value = parseInt(item.textContent) || 0;
+
+        if(value > 0){
+          active++;
+        }
+
+      });
+
+      cartCount.textContent = active;
+    }
+
+    // Update count UI
+    function updateCountUI(countBox, value){
+
+      if(value === 0){
+
+        countBox.textContent = "Zero";
+
+        countBox.classList.remove(
+          "bg-blue-500",
+          "text-white"
+        );
+
+        countBox.classList.add(
+          "bg-yellow-400",
+          "text-black"
+        );
+
+      }else{
+
+        countBox.textContent = value;
+
+        countBox.classList.remove(
+          "bg-yellow-400",
+          "text-black"
+        );
+
+        countBox.classList.add(
+          "bg-blue-500",
+          "text-white"
+        );
+
+      }
+
+    }
+
+    // Create Products
+    function renderProducts(data){
+
+      products.innerHTML = "";
+
+      data.forEach(value => {
+
+        const bgClass =
+          value === 0
+            ? "bg-yellow-400 text-black"
+            : "bg-blue-500 text-white";
+
+        const text =
+          value === 0
+            ? "Zero"
+            : value;
+
+        products.innerHTML += `
+
+          <div class="product flex items-center justify-center gap-3">
+
+            <div class="count ${bgClass} w-28 text-center py-2 rounded-lg text-3xl font-bold shadow">
+              ${text}
+            </div>
+
+            <button class="plus bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg transition">
+              <i class="fa-solid fa-circle-plus"></i>
+            </button>
+
+            <button class="minus bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-lg transition">
+              <i class="fa-solid fa-circle-minus"></i>
+            </button>
+
+            <button class="delete bg-red-500 hover:bg-red-600 text-white p-3 rounded-lg transition">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+
+          </div>
+
+        `;
+      });
+
+      updateCartCount();
+
+    }
+
+    // Product Buttons
+    products.addEventListener("click", (e) => {
+
+      const product = e.target.closest(".product");
+
+      if(!product) return;
+
+      const countBox = product.querySelector(".count");
+
+      let value = parseInt(countBox.textContent) || 0;
+
+      // Increase
+      if(e.target.closest(".plus")){
+
+        value++;
+        updateCountUI(countBox, value);
+
+      }
+
+      // Decrease
+      if(e.target.closest(".minus")){
+
+        if(value > 0){
+          value--;
+        }
+
+        updateCountUI(countBox, value);
+
+      }
+
+      // Delete
+      if(e.target.closest(".delete")){
+
+        product.remove();
+
+      }
+
+      updateCartCount();
+
+    });
+
+    // Reset only counts
+    resetBtn.addEventListener("click", () => {
+
+      const counts = document.querySelectorAll(".count");
+
+      counts.forEach(item => {
+
+        updateCountUI(item, 0);
+
+      });
+
+      updateCartCount();
+
+    });
+
+    // Full reset all carts
+    fullResetBtn.addEventListener("click", () => {
+
+      renderProducts(initialProducts);
+
+    });
+
+    updateCartCount();
+
+  </script>
+
+</body>
+</html>
